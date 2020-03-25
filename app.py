@@ -44,19 +44,33 @@ def sendData():
 
 @app.route('/getList', methods=['GET'])
 def getList():
+
     code = request.args.get('code')
-    cursor.execute('SELECT * FROM lists WHERE code=(%s)', code)
+    selectList = 'SELECT * FROM lists WHERE code=(%s)'
+    cursor.execute(selectList, code)
     listData = cursor.fetchone()
     id = listData[0]
     title = listData[1]
 
-    cursor.execute('SELECT content FROM list_entries WHERE listid=(%s)', id)
+    selectEntries = 'SELECT content FROM list_entries WHERE listid=(%s)'
+    cursor.execute(selectEntries, id)
     entries = [item[0] for item in cursor.fetchall()]
 
     return jsonify({'id': id,
                     'title': title,
                     'entries': entries})
 
+
+@app.route('/newEntry', methods=['POST'])
+def newEntry():
+    listId = request.form['listId']
+    text = request.form['text']
+
+    insert = 'INSERT INTO list_entries(listid, content) VALUES (%s, %s)'
+    cursor.execute(insert, (listId, text))
+    conn.commit()
+
+    return jsonify()
 
 def generateCode():
     cursor.execute('SELECT code FROM lists')

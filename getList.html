@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <title>List Maker - List Viewer</title>
     <link rel="stylesheet" href="static/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:200,400,700&display=swap" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
+        id = null
+
         function getList(codeValue) {
             $.ajax({
                 data: {
@@ -19,26 +21,36 @@
             }).done(function (data) {
                 // Redirect to new list page
                 $('#listViewerTitle').text(data.title).show();
-                $('#entryList').text(data.entries[0]).show();
+                id = data.id
 
-                html_list = "<ol>"
+                html_list = "<ol id='listViewerEntries'>"
                 data.entries.forEach(function (item) {
                     html_list += "<li>" + item + "</li>";
 
                 })
                 html_list += "</ul>"
 
-
-                //     html_list = "<ol>"
-                //     $.each(data.entries, function(item) {
-                //         console.log(data.entries[item]);
-                //         html_list += "<li>" + item + "</li>";
-                //     });
-                //
-                //     html_list += "</ul>"
-                    document.getElementById("entryList").innerHTML = html_list;
+                document.getElementById("entryList").innerHTML = html_list;
             });
         }
+
+
+        $(document).ready(function () {
+            $('#newItemForm').on('submit', function (event) {
+                $.ajax({
+                    data: {
+                        'listId': id,
+                        'text': $('#newItemText').val()
+                    },
+                    type: 'POST',
+                    url: 'http://127.0.0.1:5000/newEntry'
+                }).done(function () {
+                    window.location.reload();
+                });
+                event.preventDefault();
+            });
+        });
+
     </script>
 </head>
 
@@ -51,6 +63,9 @@
 <h2 id="listViewerTitle"><'data.title></h2>
 
 <div id="entryList"></div>
+<form id="newItemForm">
+    <input id="newItemText" type="text">
+</form>
 
 </body>
 </html>
