@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>List Maker</title>
     <link rel="stylesheet" href="static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
-
 </head>
 <body>
 <div class="header">
@@ -13,13 +12,15 @@
     <h2 class="subTitle">Create lists to share with your friends!</h2>
 </div>
 
-<form>
-    <label for="code" id="codeLabel">Enter code:</label>
-    <input type="text" id="code" name="code" value=""><br>
-    <input type="submit" value="Join list">
+<form id="homeForm">
+    <label id="codeLabel">Enter code to join a list:</label>
+    <input type="text" id="code" value=""><br>
+    <input type="submit" value="Join list" id="joinList">
 </form>
 
-<button type="button" id="createList">Create list</button>
+<form action="createList.html">
+    <input type="submit" id="createList" value="Create list" />
+</form>
 
 </body>
 </html>

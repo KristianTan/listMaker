@@ -4,7 +4,7 @@
 
 body {
     font-family: 'Roboto Mono', monospace;
-    background: #bdbdbd;
+    background: #d9d7b8;
 }
 
 .header {
@@ -19,33 +19,35 @@ body {
 .title {
     margin-bottom: 1%;
     font-weight: 700;
+    font-size: 3em;
 }
 
 .subTitle {
     font-weight: 400;
 }
 
-form {
+
+#homeForm {
     color: black;
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 40%;
     text-align: center;
-    min-height: 20vh;
-    margin-left: 35%;
-    margin-top: 5%;
+    min-height: 22vh;
+    margin-left: 30%;
+    margin-top: 8%;
 }
 
 
-input[type=text] {
-    box-sizing: border-box;
+#code {
     flex: 1;
     font-size: 2em;
     text-align: center;
 }
 
 
-input[type=submit] {
+#joinList {
+    font-family: 'Roboto Mono', monospace;
     background: #1abc9c;
     flex: 1;
     font-size: 2em;
@@ -58,12 +60,45 @@ input[type=submit] {
 }
 
 #createList {
+    font-family: 'Roboto Mono', monospace;
     margin-left: 35%;
-    margin-top: 10%;
+    margin-top: 5%;
     background: #1abc9c;
     font-size: 2em;
     color: white;
     border: 1px solid black;
     width: 30%;
     padding: 1%;
+}
+
+/* CreateList.html */
+
+#createListForm {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    text-align: center;
+    min-height: 22vh;
+    margin-left: 30%;
+    margin-top: 8%;
+}
+
+#listTitleLabel, #passwordLabel, #retypePasswordLabel {
+    font-size: 1.2em;
+}
+
+#listTitle, #password, #retypePassword {
+    flex: 1;
+    font-size: 2em;
+    text-align: center;
+}
+
+#makeList {
+    border: 1px solid black;
+    background: #1abc9c;
+    font-size: 2em;
+    color: white;
+    width: 50%;
+    margin-left: 25%;
 }
