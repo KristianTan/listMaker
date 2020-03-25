@@ -5,32 +5,29 @@
     <title>List Maker</title>
     <link rel="stylesheet" href="static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
 <!--    <script type="text/javascript">-->
-<!--        $(document).ready(function () {-->
-<!--            $('#homeForm').on('submit', function (event) {-->
-<!--                $.ajax({-->
-<!--                    data: {-->
-<!--                        code: $('#code').val(),-->
-<!--                    },-->
-<!--                    type: 'GET',-->
-<!--                    url: 'http://ysjcs.net:5035/sendData'-->
-<!--                }).done(function (data) {-->
-<!--                    $('#output').text(data.output).show();-->
-<!--                });-->
-<!--                event.preventDefault();-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
+    <!--        $(document).ready(function () {-->
+    <!--            $('#homeForm').on('submit', function (event) {-->
+    <!--                $.ajax({}).done(function (data) {-->
+    <!--                });-->
+    <!--                event.preventDefault();-->
+    <!--            });-->
+    <!--        });-->
+
+    <!--    </script>-->
 
 </head>
 <body>
 <div class="header">
     <h1 class="title"><a href="index.html"> List Maker</a></h1>
-
     <h2 class="subTitle">Create lists to share with your friends!</h2>
 </div>
 
-<form id="homeForm">
+<form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val())); return false">
     <label id="codeLabel">Enter code to join a list:</label>
     <input type="text" id="code" value=""><br>
     <input type="submit" value="Join list" id="joinList">

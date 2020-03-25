@@ -11,15 +11,17 @@
         id = null
 
         function getList(codeValue) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
             $.ajax({
                 data: {
                     // Change this to be url param from index.html
-                    code: "4469"
+                    code: urlParams.get('code')
                 },
                 type: 'GET',
                 url: 'http://127.0.0.1:5000/getList'
             }).done(function (data) {
-                // Redirect to new list page
                 $('#listViewerTitle').text(data.title).show();
                 id = data.id
 
