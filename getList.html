@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Maker - List Viewer</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function getList(codeValue) {
+            $.ajax({
+                data: {
+                    // Change this to be url param from index.html
+                    code: "4469"
+                },
+                type: 'GET',
+                url: 'http://127.0.0.1:5000/getList'
+            }).done(function (data) {
+                // Redirect to new list page
+                $('#listViewerTitle').text(data.title).show();
+                $('#entryList').text(data.entries[0]).show();
+
+                html_list = "<ol>"
+                data.entries.forEach(function (item) {
+                    html_list += "<li>" + item + "</li>";
+
+                })
+                html_list += "</ul>"
+
+
+                //     html_list = "<ol>"
+                //     $.each(data.entries, function(item) {
+                //         console.log(data.entries[item]);
+                //         html_list += "<li>" + item + "</li>";
+                //     });
+                //
+                //     html_list += "</ul>"
+                    document.getElementById("entryList").innerHTML = html_list;
+            });
+        }
+    </script>
+</head>
+
+<body onload="getList()">
+<div class="header">
+    <h1 class="title"><a href="index.html"> List Maker</a></h1>
+    <h2 class="subTitle">Create lists to share with your friends!</h2>
+</div>
+
+<h2 id="listViewerTitle"><'data.title></h2>
+
+<div id="entryList"></div>
+
+</body>
+</html>

@@ -1,6 +1,19 @@
+from random import random, randint
+
 from flask import Flask, request, jsonify
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
+
+mysql = MySQL()
+app.config['MYSQL_DATABASE_USER'] = 'kristian.tan'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Kkttkktt98'
+app.config['MYSQL_DATABASE_DB'] = 'kristiantan_RESTService'
+app.config['MYSQL_DATABASE_HOST'] = 'cs2s.yorkdc.net'
+
+mysql.init_app(app)
+conn = mysql.connect()
+cursor = conn.cursor()
 
 
 @app.after_request
@@ -16,12 +29,43 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/sendData', methods=['GET', 'POST'])
+@app.route('/createList', methods=['GET', 'POST'])
 def sendData():
     title = request.form['title']
     passphrase = request.form['passphrase']
-    output = title + ", " + passphrase
-    return jsonify({'output': output})
+    code = generateCode()
+
+    insert = 'INSERT INTO lists(title, code, passphrase) VALUES (%s, %s, %s)'
+    cursor.execute(insert, (title, code, passphrase))
+    conn.commit()
+
+    return jsonify({'output': 'list created'})
+
+
+@app.route('/getList', methods=['GET'])
+def getList():
+    code = request.args.get('code')
+    cursor.execute('SELECT * FROM lists WHERE code=(%s)', code)
+    listData = cursor.fetchone()
+    id = listData[0]
+    title = listData[1]
+
+    cursor.execute('SELECT content FROM list_entries WHERE listid=(%s)', id)
+    entries = [item[0] for item in cursor.fetchall()]
+
+    return jsonify({'id': id,
+                    'title': title,
+                    'entries': entries})
+
+
+def generateCode():
+    cursor.execute('SELECT code FROM lists')
+    data = cursor.fetchall()
+    code = randint(1000, 9999)
+    while data.__contains__(code):
+        code = randint(1000, 9999)
+
+    return code
 
 
 if __name__ == '__main__':

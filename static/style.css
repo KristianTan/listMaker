@@ -16,10 +16,17 @@ body {
     color: white;
 }
 
-.title {
+a {
     margin-bottom: 1%;
     font-weight: 700;
-    font-size: 3em;
+    font-size: 1.5em;
+    text-decoration: none;
+    color: white;
+}
+
+.title:visited, title:link {
+    text-decoration: none;
+    color: white;
 }
 
 .subTitle {
@@ -85,7 +92,7 @@ body {
 }
 
 #listTitleLabel, #passphraseLabel {
-    font-size: 1.2em;
+    font-size: 1.5em;
 }
 
 #listTitle, #passphrase {
@@ -101,4 +108,16 @@ body {
     color: white;
     width: 50%;
     margin-left: 25%;
+    padding: 2%;
+}
+
+/*View List*/
+
+#listViewerTitle {
+    text-align: center;
+    margin-top: 2%;
+    font-size: 3em;
+    font-weight: 400;
+    text-decoration: underline;
+    color: black;
 }

@@ -16,9 +16,10 @@
                         passphrase: $('#passphrase').val(),
                     },
                     type: 'POST',
-                    url: 'http://127.0.0.1:5000/sendData'
+                    url: 'http://127.0.0.1:5000/createList'
                 }).done(function (data) {
-                    $('#output').text(data.output).show();
+                    // Redirect to new list page
+                    // $('#output').text(data.output).show();
                 });
                 event.preventDefault();
             });
@@ -29,7 +30,7 @@
 </head>
 <body>
 <div class="header">
-    <h1 class="title">List Maker</h1>
+    <h1 class="title"><a href="index.html"> List Maker</a></h1>
     <h2 class="subTitle">Create lists to share with your friends!</h2>
 </div>
 
@@ -44,8 +45,6 @@
 
     <input type="submit" value="Create list" id="makeList">
 </form>
-
-<div id="output"></div>
 
 </body>
 </html>
