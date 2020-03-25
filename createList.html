@@ -5,6 +5,27 @@
     <title>List Maker - Create List</title>
     <link rel="stylesheet" href="static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#createListForm').on('submit', function (event) {
+                $.ajax({
+                    data: {
+                        title: $('#listTitle').val(),
+                        passphrase: $('#passphrase').val(),
+                    },
+                    type: 'POST',
+                    url: 'http://127.0.0.1:5000/sendData'
+                }).done(function (data) {
+                    $('#output').text(data.output).show();
+                });
+                event.preventDefault();
+            });
+        });
+
+    </script>
+
 </head>
 <body>
 <div class="header">
@@ -16,14 +37,15 @@
     <label id="listTitleLabel">Give your list a title:</label>
     <input type="text" id="listTitle" value=""><br>
 
-    <label id="passwordLabel">Enter a password for your list:</label>
-    <input type="password" id="password" value=""><br>
+    <label id="passphraseLabel">Enter a passphrase for your list:</label>
+    <input type="text" id="passphrase" value=""><br>
 
-    <label id="retypePasswordLabel">Reenter password for your list:</label>
-    <input type="password" id="retypePassword" value=""><br>
+
 
     <input type="submit" value="Create list" id="makeList">
 </form>
+
+<div id="output"></div>
 
 </body>
 </html>

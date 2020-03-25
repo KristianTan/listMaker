@@ -84,11 +84,11 @@ body {
     margin-top: 8%;
 }
 
-#listTitleLabel, #passwordLabel, #retypePasswordLabel {
+#listTitleLabel, #passphraseLabel {
     font-size: 1.2em;
 }
 
-#listTitle, #password, #retypePassword {
+#listTitle, #passphrase {
     flex: 1;
     font-size: 2em;
     text-align: center;
