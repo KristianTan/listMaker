@@ -39,7 +39,7 @@ def sendData():
     cursor.execute(insert, (title, code, passphrase))
     conn.commit()
 
-    return jsonify({'output': 'list created'})
+    return jsonify({'code': code})
 
 
 @app.route('/getList', methods=['GET'])

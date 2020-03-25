@@ -27,7 +27,7 @@
     <h2 class="subTitle">Create lists to share with your friends!</h2>
 </div>
 
-<form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val())); return false">
+<form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val()), '__self'); return false">
     <label id="codeLabel">Enter code to join a list:</label>
     <input type="text" id="code" value=""><br>
     <input type="submit" value="Join list" id="joinList">
