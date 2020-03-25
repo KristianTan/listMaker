@@ -22,8 +22,14 @@
                 type: 'GET',
                 url: 'http://127.0.0.1:5000/getList'
             }).done(function (data) {
+
                 $('#listViewerTitle').text(data.title).show();
-                id = data.id
+                if (data.message === 'No list found for that code') {
+                    window.alert('No list found with code: ' + data.code)
+                    window.open('index.html', '__self');
+                }
+                id = data.id;
+                $('#listId').text('(list code: ' + data.code + ')').show();
 
                 html_list = "<ol id='listViewerEntries'>"
                 data.entries.forEach(function (item) {
@@ -62,7 +68,8 @@
     <h2 class="subTitle">Create lists to share with your friends!</h2>
 </div>
 
-<h2 id="listViewerTitle"><'data.title></h2>
+<h2 id="listViewerTitle"></h2>
+<h3 id="listId"></h3id></h3>
 
 <div id="entryList"></div>
 <form id="newItemForm">

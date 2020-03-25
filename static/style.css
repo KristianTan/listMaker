@@ -122,6 +122,12 @@ a {
     color: black;
 }
 
+#listId {
+    margin-top: 1%;
+    font-weight: 100;
+    text-align: center;
+}
+
 #listViewerEntries {
     margin-left: 15%;
     font-size: 1.5em;
@@ -136,5 +142,4 @@ a {
 #newItemText {
     margin-left: 17%;
     font-size: 1.5em;
-
 }
