@@ -5,9 +5,9 @@ Users can create lists which they can share with others using the list code.
 
 ## Running the application
 The application is installed on the CS2S server.
-The server application can be run by activating the virtual environment and running the `app.py` file found at the following location:
+The server application can be run by activating the virtual environment and running the `app.py` file found at the following location in my user area:
 
-`http://ysjcs.net/~kristian.tan/listMaker/app.py`
+`kristian.tan/htdocs/listMaker/app.py`
 
 commands to run the server application:
 
