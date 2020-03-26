@@ -29,16 +29,18 @@ def after_request(response):
 
 
 @app.route('/createList', methods=['GET', 'POST'])
-def send_data():
+def create_list():
     title = request.form['title']
     passphrase = request.form['passphrase']
     code = generate_code()
+    jwt = get_token(code)
 
     insert = 'INSERT INTO lists(title, code, passphrase) VALUES (%s, %s, %s)'
     cursor.execute(insert, (title, code, passphrase))
     conn.commit()
 
-    return jsonify({'code': code})
+    return jsonify({'code': code,
+                    'jwt': jwt})
 
 
 @app.route('/getList', methods=['GET'])
@@ -55,7 +57,8 @@ def get_list():
     authorised = False
     if request.args.get('jwt'):
         data = jwt.decode(request.args.get('jwt'), app.config['SECRET_KEY'])
-        if data['code'] == code:
+        if str(data['code']) == code:
+            print(code)
             authorised = True
 
     id = listData[0]

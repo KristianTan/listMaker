@@ -158,7 +158,6 @@ a {
     min-height: 22vh;
     margin-left: 30%;
     margin-top: 5%;
-
 }
 
 #formPopup h1 {
@@ -193,9 +192,3 @@ a {
 #formPopup input[type="submit"]:hover, #joinList:hover, #createList:hover, #makeList:hover{
     background: #0c856d;
 }
-
-/*!* Add some hover effects to buttons *!*/
-/*#formPopup .btn:hover, .open-button:hover {*/
-/*    opacity: 1;*/
-/*    background: #0c856d;*/
-/*}*/

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#createListForm').on('submit', function (event) {
@@ -20,6 +20,8 @@
                 }).done(function (data) {
                     // Redirect to new list page
                     // $('#output').text(data.output).show();
+                    // + '&jwt=' + data.jwt
+                    document.cookie = 'jwt=' + data.jwt;
                     window.open('getList.html?code=' + data.code, '__self');
                 });
                 event.preventDefault();
@@ -43,9 +45,8 @@
     <input type="text" id="passphrase" value=""><br>
 
 
-
     <input type="submit" value="Create list" id="makeList">
-<!--    <form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val()), '__self'); return false">-->
+    <!--    <form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val()), '__self'); return false">-->
 
 </form>
 
