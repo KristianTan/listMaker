@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
         id = null;
-
+        code = null;
         function getList(codeValue) {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
@@ -17,12 +17,12 @@
             $.ajax({
                 data: {
                     // Change this to be url param from index.html
-                    code: urlParams.get('code')
+                    code: urlParams.get('code'),
+                    jwt: getCookie('jwt')
                 },
                 type: 'GET',
-                url: 'http://localhost:5000/getList'
+                url: 'http://ysjcs.net:5035/getList'
             }).done(function (data) {
-
                 if (data.message === 'No list found for that code') {
                     window.alert('No list found with code: ' + data.code)
                     window.open('index.html', '__self');
@@ -30,18 +30,23 @@
 
                 $('#listViewerTitle').text(data.title).show();
                 id = data.id;
+                code = data.code;
                 $('#listId').text('(list code: ' + data.code + ')').show();
 
-                html_list = "<ol id='listViewerEntries'>"
+                html_list = '<ol id=\'listViewerEntries\'>';
                 data.entries.forEach(function (item) {
-                    html_list += "<li>" + item + "</li>";
+                    html_list += `<li>${item}</li>`;
 
-                })
-                html_list += "</ul>"
-
+                });
+                html_list += '</ul>';
                 document.getElementById("entryList").innerHTML = html_list;
-                document.getElementById("entryList").style.display = "none";
-                document.getElementById("newItemForm").style.display = "none";
+
+                if (!data.auth) {
+                    document.getElementById("entryList").style.display = "none";
+                    document.getElementById("newItemForm").style.display = "none";
+                } else {
+                    document.getElementById("formPopup").style.display = "none";
+                }
             });
         }
 
@@ -54,7 +59,7 @@
                         'text': $('#newItemText').val()
                     },
                     type: 'POST',
-                    url: 'http://localhost:5000/newEntry'
+                    url: 'http://ysjcs.net:5035/newEntry'
                 }).done(function () {
                     window.location.reload();
                 });
@@ -68,23 +73,44 @@
                 $.ajax({
                     data: {
                         'listId': id,
-                        'passPhrase': $('#popupPassphrase').val()
+                        'passPhrase': $('#popupPassphrase').val(),
+                        'code': code
                     },
+                    credentials: 'Same-Origin',
                     type: 'POST',
-                    url: 'http://localhost:5000/checkPassphrase'
+                    url: 'http://ysjcs.net:5035/checkPassphrase'
                 }).done(function (data) {
-                    if (data.message == "Correct passphrase") {
+                    if (data.message === "Correct passphrase") {
+                        document.cookie = 'jwt=' + data.token;
                         document.getElementById("entryList").style.display = "block";
                         document.getElementById("newItemForm").style.display = "block";
                         document.getElementById("formPopup").style.display = "none";
                     } else {
                         window.alert('Incorrect passphrase');
-
                     }
                 });
                 event.preventDefault();
             });
         });
+
+        function getCookie(name) {
+            var dc = document.cookie;
+            var prefix = name + "=";
+            var begin = dc.indexOf("; " + prefix);
+            if (begin == -1) {
+                begin = dc.indexOf(prefix);
+                if (begin != 0) return null;
+            } else {
+                begin += 2;
+                var end = document.cookie.indexOf(";", begin);
+                if (end == -1) {
+                    end = dc.length;
+                }
+            }
+            // because unescape has been deprecated, replaced with decodeURI
+            //return unescape(dc.substring(begin + prefix.length, end));
+            return decodeURI(dc.substring(begin + prefix.length, end));
+        }
 
     </script>
 </head>

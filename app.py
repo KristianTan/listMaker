@@ -1,6 +1,9 @@
+from datetime import datetime, timedelta
+from functools import wraps
 from random import random, randint
 
-from flask import Flask, request, jsonify
+import jwt
+from flask import Flask, request, jsonify, make_response, session
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
@@ -10,6 +13,7 @@ app.config['MYSQL_DATABASE_USER'] = 'kristian.tan'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Kkttkktt98'
 app.config['MYSQL_DATABASE_DB'] = 'kristiantan_RESTService'
 app.config['MYSQL_DATABASE_HOST'] = 'cs2s.yorkdc.net'
+app.config['SECRET_KEY'] = 'secret'
 
 mysql.init_app(app)
 conn = mysql.connect()
@@ -48,6 +52,12 @@ def get_list():
         return jsonify({'message': 'No list found for that code',
                         'code': code})
 
+    authorised = False
+    if request.args.get('jwt'):
+        data = jwt.decode(request.args.get('jwt'), app.config['SECRET_KEY'])
+        if data['code'] == code:
+            authorised = True
+
     id = listData[0]
     title = listData[1]
     code = listData[2]
@@ -60,7 +70,8 @@ def get_list():
                     'id': id,
                     'title': title,
                     'code': code,
-                    'entries': entries})
+                    'entries': entries,
+                    'auth': authorised})
 
 
 @app.route('/newEntry', methods=['POST'])
@@ -79,6 +90,7 @@ def newEntry():
 def check_passphrase():
     passphrase = request.form['passPhrase']
     listId = request.form['listId']
+    code = request.form['code']
 
     selectEntries = 'SELECT passphrase FROM lists WHERE id=(%s)'
     cursor.execute(selectEntries, listId)
@@ -86,6 +98,11 @@ def check_passphrase():
 
     if data[0] == passphrase:
         message = "Correct passphrase"
+        token = get_token(code)
+        json = jsonify({'message': message,
+                        'token': str(token)})
+        json.set_cookie('jwt', token, domain='127.0.0.1')
+        return json
     else:
         message = "Incorrect passphrase"
 
@@ -102,6 +119,12 @@ def generate_code():
     return code
 
 
+def get_token(code):
+    token = jwt.encode({'code': code, 'exp': datetime.utcnow() + timedelta(minutes=15)},
+                       app.config['SECRET_KEY'])
+    return token
+
+
 if __name__ == '__main__':
-    app.run()
-    # app.run(host='0.0.0.0', port=5035, debug=True)
+    # app.run()
+    app.run(host='0.0.0.0', port=5035, debug=True)
