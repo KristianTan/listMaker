@@ -26,15 +26,14 @@ The client can be found at the following link:
 * After filling in the information for your list, press the create list button
 * After creating your list you will be redirected to the list viewing page
 * The list code is displayed at the top of this screen, which can be used to access the list from the hope page
-* List entries can be deleted by clicking on them
-* List titles can be updated by clicking on them
-
 
 ##### Accessing a list
 * To access an existing list enter a list code into the text box on the home screen
 * Press the `Join List` button to go to the specified list
 * Enter the passphrase for the list in the text box and press `Enter` 
 * Once you have entered the passphrase you will not be asked for it again, unless you access another list
+* List entries can be deleted by clicking on them
+* List titles can be updated by clicking on them
 
 ## API End points
 This project contains API end points for the 4 CRUD operations as listed below.
