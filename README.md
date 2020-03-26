@@ -3,6 +3,22 @@
 This project is a collaborative list making tool.  
 Users can create lists which they can share with others using the list code.
 
+## Running the application
+The application is installed on the CS2S server.
+The server application can be run by activating the virtual environment and running the `app.py` file found at the following location:
+
+`http://ysjcs.net/~kristian.tan/listMaker/app.py`
+
+commands to run the server application:
+
+`source venv/bin/activate`
+
+`python app.py`
+
+The client can be found at the following link:
+`http://ysjcs.net/~kristian.tan/listMaker/`
+
+
 ## Usage
 ##### Creating a list
 * To create a new list, select the `Create List` button from the home page.
