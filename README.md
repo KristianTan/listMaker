@@ -118,6 +118,21 @@ failure:
 }
 ```
 ### Update
+#### `/renameList`
+Used to update a lists title
+
+`Method: PUT` 
+##### URL params
+| Parameter  |Description              |
+| :----------:| :-----------------------:|
+|id       |      list ID|
+|newTitle| New title of list| 
+
+
+##### Returns
+```
+nothing
+```
 
 ### Delete
 #### `/deleteEntry`
@@ -138,7 +153,7 @@ nothing
 ## JWT implementation
 To implement JWT into this project, the server issues a token when a list is created or a user enters the correct code and passphrase for a list.
 The server checks to see if a JWT exists when a user accesses a list, if their is an existing JWT for the list being accessed, the user will not be prompted for the passphrase and can access the list immediately after entering the code.
-
+The JWT token will expire after 15 minutes.
 
 
 # Template
