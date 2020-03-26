@@ -1,6 +1,9 @@
+from datetime import datetime, timedelta
+from functools import wraps
 from random import random, randint
 
-from flask import Flask, request, jsonify
+import jwt
+from flask import Flask, request, jsonify, make_response, session
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
@@ -10,6 +13,7 @@ app.config['MYSQL_DATABASE_USER'] = 'kristian.tan'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Kkttkktt98'
 app.config['MYSQL_DATABASE_DB'] = 'kristiantan_RESTService'
 app.config['MYSQL_DATABASE_HOST'] = 'cs2s.yorkdc.net'
+app.config['SECRET_KEY'] = 'secret'
 
 mysql.init_app(app)
 conn = mysql.connect()
@@ -24,16 +28,11 @@ def after_request(response):
     return response
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-
 @app.route('/createList', methods=['GET', 'POST'])
-def sendData():
+def send_data():
     title = request.form['title']
     passphrase = request.form['passphrase']
-    code = generateCode()
+    code = generate_code()
 
     insert = 'INSERT INTO lists(title, code, passphrase) VALUES (%s, %s, %s)'
     cursor.execute(insert, (title, code, passphrase))
@@ -43,7 +42,7 @@ def sendData():
 
 
 @app.route('/getList', methods=['GET'])
-def getList():
+def get_list():
     code = request.args.get('code')
     selectList = 'SELECT * FROM lists WHERE code=(%s)'
     cursor.execute(selectList, code)
@@ -52,6 +51,12 @@ def getList():
     if listData == None:
         return jsonify({'message': 'No list found for that code',
                         'code': code})
+
+    authorised = False
+    if request.args.get('jwt'):
+        data = jwt.decode(request.args.get('jwt'), app.config['SECRET_KEY'])
+        if data['code'] == code:
+            authorised = True
 
     id = listData[0]
     title = listData[1]
@@ -65,7 +70,8 @@ def getList():
                     'id': id,
                     'title': title,
                     'code': code,
-                    'entries': entries})
+                    'entries': entries,
+                    'auth': authorised})
 
 
 @app.route('/newEntry', methods=['POST'])
@@ -80,7 +86,30 @@ def newEntry():
     return jsonify()
 
 
-def generateCode():
+@app.route('/checkPassphrase', methods=['POST'])
+def check_passphrase():
+    passphrase = request.form['passPhrase']
+    listId = request.form['listId']
+    code = request.form['code']
+
+    selectEntries = 'SELECT passphrase FROM lists WHERE id=(%s)'
+    cursor.execute(selectEntries, listId)
+    data = cursor.fetchone()
+
+    if data[0] == passphrase:
+        message = "Correct passphrase"
+        token = get_token(code)
+        json = jsonify({'message': message,
+                        'token': str(token)})
+        json.set_cookie('jwt', token, domain='127.0.0.1')
+        return json
+    else:
+        message = "Incorrect passphrase"
+
+    return jsonify({'message': message})
+
+
+def generate_code():
     cursor.execute('SELECT code FROM lists')
     data = cursor.fetchall()
     code = randint(1000, 9999)
@@ -90,5 +119,12 @@ def generateCode():
     return code
 
 
+def get_token(code):
+    token = jwt.encode({'code': code, 'exp': datetime.utcnow() + timedelta(minutes=15)},
+                       app.config['SECRET_KEY'])
+    return token
+
+
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    app.run(host='0.0.0.0', port=5035, debug=True)
