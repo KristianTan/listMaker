@@ -7,6 +7,7 @@ body {
     background: #d9d7b8;
 }
 
+
 .header {
     padding-top: 1%;
     padding-bottom: 1%;
@@ -60,6 +61,7 @@ a {
     font-size: 2em;
     color: white;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 #codeLabel {
@@ -76,6 +78,7 @@ a {
     border: 1px solid black;
     width: 30%;
     padding: 1%;
+    cursor: pointer;
 }
 
 /* CreateList.html */
@@ -109,6 +112,8 @@ a {
     width: 50%;
     margin-left: 25%;
     padding: 2%;
+    cursor: pointer;
+
 }
 
 /*View List*/
@@ -143,3 +148,54 @@ a {
     margin-left: 17%;
     font-size: 1.5em;
 }
+
+#formPopup {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    text-align: center;
+    min-height: 22vh;
+    margin-left: 30%;
+    margin-top: 5%;
+
+}
+
+#formPopup h1 {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+#formPopup input[type=password] {
+    flex: 1;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+/* When the inputs get focus, do something */
+#formPopup input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Set a style for the submit/login button */
+#formPopup input[type="submit"] {
+    cursor: pointer;
+    font-family: 'Roboto Mono', monospace;
+    background: #1abc9c;
+    flex: 1;
+    font-size: 2em;
+    color: white;
+    border: 1px solid black;
+}
+
+#formPopup input[type="submit"]:hover, #joinList:hover, #createList:hover, #makeList:hover{
+    background: #0c856d;
+}
+
+/*!* Add some hover effects to buttons *!*/
+/*#formPopup .btn:hover, .open-button:hover {*/
+/*    opacity: 1;*/
+/*    background: #0c856d;*/
+/*}*/

@@ -24,16 +24,11 @@ def after_request(response):
     return response
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-
 @app.route('/createList', methods=['GET', 'POST'])
-def sendData():
+def send_data():
     title = request.form['title']
     passphrase = request.form['passphrase']
-    code = generateCode()
+    code = generate_code()
 
     insert = 'INSERT INTO lists(title, code, passphrase) VALUES (%s, %s, %s)'
     cursor.execute(insert, (title, code, passphrase))
@@ -43,7 +38,7 @@ def sendData():
 
 
 @app.route('/getList', methods=['GET'])
-def getList():
+def get_list():
     code = request.args.get('code')
     selectList = 'SELECT * FROM lists WHERE code=(%s)'
     cursor.execute(selectList, code)
@@ -80,7 +75,24 @@ def newEntry():
     return jsonify()
 
 
-def generateCode():
+@app.route('/checkPassphrase', methods=['POST'])
+def check_passphrase():
+    passphrase = request.form['passPhrase']
+    listId = request.form['listId']
+
+    selectEntries = 'SELECT passphrase FROM lists WHERE id=(%s)'
+    cursor.execute(selectEntries, listId)
+    data = cursor.fetchone()
+
+    if data[0] == passphrase:
+        message = "Correct passphrase"
+    else:
+        message = "Incorrect passphrase"
+
+    return jsonify({'message': message})
+
+
+def generate_code():
     cursor.execute('SELECT code FROM lists')
     data = cursor.fetchall()
     code = randint(1000, 9999)
@@ -92,3 +104,4 @@ def generateCode():
 
 if __name__ == '__main__':
     app.run()
+    # app.run(host='0.0.0.0', port=5035, debug=True)

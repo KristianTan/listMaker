@@ -8,7 +8,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
-        id = null
+        id = null;
 
         function getList(codeValue) {
             const queryString = window.location.search;
@@ -20,14 +20,15 @@
                     code: urlParams.get('code')
                 },
                 type: 'GET',
-                url: 'http://127.0.0.1:5000/getList'
+                url: 'http://localhost:5000/getList'
             }).done(function (data) {
 
-                $('#listViewerTitle').text(data.title).show();
                 if (data.message === 'No list found for that code') {
                     window.alert('No list found with code: ' + data.code)
                     window.open('index.html', '__self');
                 }
+
+                $('#listViewerTitle').text(data.title).show();
                 id = data.id;
                 $('#listId').text('(list code: ' + data.code + ')').show();
 
@@ -39,6 +40,8 @@
                 html_list += "</ul>"
 
                 document.getElementById("entryList").innerHTML = html_list;
+                document.getElementById("entryList").style.display = "none";
+                document.getElementById("newItemForm").style.display = "none";
             });
         }
 
@@ -51,9 +54,33 @@
                         'text': $('#newItemText').val()
                     },
                     type: 'POST',
-                    url: 'http://127.0.0.1:5000/newEntry'
+                    url: 'http://localhost:5000/newEntry'
                 }).done(function () {
                     window.location.reload();
+                });
+                event.preventDefault();
+            });
+        });
+
+
+        $(document).ready(function () {
+            $('#formPopup').on('submit', function (event) {
+                $.ajax({
+                    data: {
+                        'listId': id,
+                        'passPhrase': $('#popupPassphrase').val()
+                    },
+                    type: 'POST',
+                    url: 'http://localhost:5000/checkPassphrase'
+                }).done(function (data) {
+                    if (data.message == "Correct passphrase") {
+                        document.getElementById("entryList").style.display = "block";
+                        document.getElementById("newItemForm").style.display = "block";
+                        document.getElementById("formPopup").style.display = "none";
+                    } else {
+                        window.alert('Incorrect passphrase');
+
+                    }
                 });
                 event.preventDefault();
             });
@@ -75,6 +102,12 @@
 
 <form id="newItemForm">
     <input id="newItemText" type="text">
+</form>
+
+<form id="formPopup">
+    <h1>Enter passphrase to edit list:</h1>
+    <input type="password" placeholder="" id="popupPassphrase" required>
+    <input type="submit" value="Enter">
 </form>
 
 </body>
