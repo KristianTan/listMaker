@@ -120,7 +120,20 @@ failure:
 ### Update
 
 ### Delete
+#### `/deleteEntry`
+Used to delete an item from a list
 
+`Method: ` 
+##### URL params
+| Parameter  |Description              |
+| :----------:| :-----------------------:|
+|   id    |  ID of the entry to delete    | 
+
+
+##### Returns
+```
+nothing
+```
 
 ## JWT implementation
 To implement JWT into this project, the server issues a token when a list is created or a user enters the correct code and passphrase for a list.
