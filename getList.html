@@ -39,7 +39,7 @@
                     html_list += "<li class=\"listEntryElement\" id=" + item['id'] + ">" + item['content'] + "</li>";
 
                 });
-                html_list += '</ul>';
+                html_list += '</ol>';
                 document.getElementById("entryList").innerHTML = html_list;
 
                 if (!data.auth) {
@@ -145,7 +145,8 @@
 <div id="entryList"></div>
 
 <form id="newItemForm">
-    <input id="newItemText" type="text">
+    <input id="newItemText" type="text" required="true">
+    <input id="addItem" type="submit" value="Add">
 </form>
 
 <form id="formPopup">
