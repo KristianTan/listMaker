@@ -58,18 +58,21 @@ def get_list():
     if request.args.get('jwt'):
         data = jwt.decode(request.args.get('jwt'), app.config['SECRET_KEY'])
         if str(data['code']) == code:
-            print(code)
             authorised = True
 
     id = listData[0]
     title = listData[1]
     code = listData[2]
 
-    selectEntries = 'SELECT content FROM list_entries WHERE listid=(%s)'
+    selectEntries = 'SELECT content, id FROM list_entries WHERE listid=(%s)'
     cursor.execute(selectEntries, id)
-    entries = [item[0] for item in cursor.fetchall()]
+    # entries = [item[0] for item in cursor.fetchall()]
+    columns = [column[0] for column in cursor.description]
+    entries = []
+    for row in cursor.fetchall():
+        entries.append(dict(zip(columns, row)))
 
-    return jsonify({'message': 'New list created',
+    return jsonify({'message': 'List found',
                     'id': id,
                     'title': title,
                     'code': code,
@@ -110,6 +113,17 @@ def check_passphrase():
         message = "Incorrect passphrase"
 
     return jsonify({'message': message})
+
+
+@app.route('/deleteEntry', methods=['DELETE'])
+def delete_entry() :
+    entryId = request.args.get('id')
+    print(entryId)
+    delete_statement = 'DELETE FROM list_entries WHERE id=%s'
+    cursor.execute(delete_statement, entryId)
+    conn.commit()
+
+    return ""
 
 
 def generate_code():

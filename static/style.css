@@ -113,7 +113,6 @@ a {
     margin-left: 25%;
     padding: 2%;
     cursor: pointer;
-
 }
 
 /*View List*/
@@ -142,6 +141,12 @@ a {
 #listViewerEntries li {
     margin-bottom: 1em;
     font-size: 1.2em;
+}
+
+
+#listViewerEntries li:hover {
+    text-decoration: line-through;
+    cursor: pointer;
 }
 
 #newItemText {
