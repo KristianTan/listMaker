@@ -26,6 +26,8 @@ The client can be found at the following link:
 * After filling in the information for your list, press the create list button
 * After creating your list you will be redirected to the list viewing page
 * The list code is displayed at the top of this screen, which can be used to access the list from the hope page
+* List entries can be deleted by clicking on them
+* List titles can be updated by clicking on them
 
 
 ##### Accessing a list
