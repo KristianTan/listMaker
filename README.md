@@ -123,7 +123,7 @@ failure:
 #### `/deleteEntry`
 Used to delete an item from a list
 
-`Method: ` 
+`Method: DELETE` 
 ##### URL params
 | Parameter  |Description              |
 | :----------:| :-----------------------:|
