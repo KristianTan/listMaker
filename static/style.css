@@ -117,8 +117,11 @@ a {
 
 /*View List*/
 
+
+
 #listViewerTitle {
     text-align: center;
+    /*margin-left: 40%;*/
     margin-top: 2%;
     font-size: 3em;
     font-weight: 400;
@@ -126,10 +129,16 @@ a {
     color: black;
 }
 
+#listViewerTitle:hover {
+    color: #1abc9c;
+    cursor: pointer;
+}
+
 #listId {
-    margin-top: 1%;
+    /*margin-top: 1%;*/
     font-weight: 200;
     text-align: center;
+    margin-bottom: 5%;
 }
 
 #listViewerEntries {
@@ -147,6 +156,7 @@ a {
 #listViewerEntries li:hover {
     text-decoration: line-through;
     cursor: pointer;
+    color: #1abc9c;
 }
 
 #newItemText {
@@ -154,7 +164,7 @@ a {
     margin-left: 14.5%;
 }
 
-#addItem {
+#addItem, #renameTitleSubmit{
     font-family: 'Roboto Mono', monospace;
     font-size: 1.5em;
     background: #1abc9c;
@@ -205,4 +215,15 @@ a {
 
 #formPopup input[type="submit"]:hover, #joinList:hover, #createList:hover, #makeList:hover {
     background: #0c856d;
+}
+
+#renameTitleForm {
+    margin: auto;
+    display: inline-block;
+    text-align: center;
+}
+
+#renameTitle {
+    margin-top: 2%;
+    font-size: 2em;
 }

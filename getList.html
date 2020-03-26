@@ -11,10 +11,13 @@
         id = null;
         code = null;
 
+        // Run on page load to get list data
         function getList(codeValue) {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
+            document.getElementById("renameTitleForm").style.display = "none";
 
+            // Make GET request to server to get list data
             $.ajax({
                 data: {
                     // Change this to be url param from index.html
@@ -50,6 +53,8 @@
                 }
             });
 
+            // A listener to detect when list entries are clicked
+            // Delete entry on click
             document.getElementById("entryList").addEventListener("click", function (e) {
                 if (e.target) {
                     // console.log(e.target.id + " was clicked");
@@ -67,9 +72,39 @@
                 }
             });
 
+            document.getElementById("listViewerTitle").addEventListener("click", function (e) {
+                document.getElementById("listViewerTitle").style.display = "none";
+                document.getElementById("renameTitleForm").style.display = "block";
+            });
+
         }
 
+        $(document).ready(function () {
+            $('#renameTitleForm').on('submit', function (event) {
+                // $.ajax({
+                //     data: {
+                //         'listId': id,
+                //         'newTitle': $('#renameTitle').val()
+                //     },
+                //     type: 'PUT',
+                //     url: 'http://ysjcs.net:5035/renameList'
+                // }).done(function () {
+                //     window.location.reload();
+                // });
+                $.ajax({
+                    url: 'http://ysjcs.net:5035/renameList',
+                    type: 'PUT',
+                    data: "listId=" + id + "&newTitle=" + $('#renameTitle').val(),
+                    success: function (data) {
+                        window.location.reload();
 
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+
+        // POST request to server when a new item is added to list
         $(document).ready(function () {
             $('#newItemForm').on('submit', function (event) {
                 $.ajax({
@@ -86,6 +121,7 @@
             });
         });
 
+        // POST request to server when passphrase is entered
         $(document).ready(function () {
             $('#formPopup').on('submit', function (event) {
                 $.ajax({
@@ -111,6 +147,7 @@
             });
         });
 
+        // Get a cookie by name
         function getCookie(name) {
             var dc = document.cookie;
             var prefix = name + "=";
@@ -140,6 +177,11 @@
 </div>
 
 <h2 id="listViewerTitle"></h2>
+<form id="renameTitleForm">
+    <input type="text" placeholder="" id="renameTitle" required>
+    <input type="submit" value="Enter" id="renameTitleSubmit">
+</form>
+
 <h3 id="listId"></h3>
 
 <div id="entryList"></div>

@@ -121,9 +121,21 @@ def check_passphrase():
 @app.route('/deleteEntry', methods=['DELETE'])
 def delete_entry():
     entryId = request.args.get('id')
-    print(entryId)
     delete_statement = 'DELETE FROM list_entries WHERE id=%s'
     cursor.execute(delete_statement, entryId)
+    conn.commit()
+
+    return ""
+
+
+@app.route('/renameList', methods=['PUT'])
+def rename_list():
+    listId = request.form['listId']
+    title = request.form['newTitle']
+
+    update_statement = 'UPDATE lists SET title=(%s) WHERE id=(%s)'
+    cursor.execute(update_statement, (title, listId))
+    print(update_statement, (listId, title))
     conn.commit()
 
     return ""
