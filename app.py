@@ -56,9 +56,12 @@ def get_list():
 
     authorised = False
     if request.args.get('jwt'):
-        data = jwt.decode(request.args.get('jwt'), app.config['SECRET_KEY'])
-        if str(data['code']) == code:
-            authorised = True
+        try:
+            data = jwt.decode(request.args.get('jwt'), app.config['SECRET_KEY'])
+            if str(data['code']) == code:
+                authorised = True
+        except jwt.ExpiredSignatureError:
+            pass
 
     id = listData[0]
     title = listData[1]
@@ -116,7 +119,7 @@ def check_passphrase():
 
 
 @app.route('/deleteEntry', methods=['DELETE'])
-def delete_entry() :
+def delete_entry():
     entryId = request.args.get('id')
     print(entryId)
     delete_statement = 'DELETE FROM list_entries WHERE id=%s'

@@ -53,14 +53,17 @@
             document.getElementById("entryList").addEventListener("click", function (e) {
                 if (e.target) {
                     // console.log(e.target.id + " was clicked");
-                    $.ajax({
-                        url: 'http://ysjcs.net:5035/deleteEntry?id=' + e.target.id,
-                        type: 'DELETE',
-                        success: function (result) {
-                            window.location.reload();
+                    var confirmation = confirm("Delete list entry?");
+                    if (confirmation) {
+                        $.ajax({
+                            url: 'http://ysjcs.net:5035/deleteEntry?id=' + e.target.id,
+                            type: 'DELETE',
+                            success: function (result) {
+                                window.location.reload();
 
-                        }
-                    })
+                            }
+                        })
+                    }
                 }
             });
 
