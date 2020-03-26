@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>List Maker</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
+<div class="header">
+    <h1 class="title"><a href="index.html"> List Maker</a></h1>
+    <h2 class="subTitle">Create lists to share with your friends!</h2>
+</div>
+
+<form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val()), '__self'); return false">
+    <label id="codeLabel">Enter code to join a list:</label>
+    <input type="text" id="code" value="" required="true"><br>
+    <input type="submit" value="Join list" id="joinList">
+</form>
+
+<form action="createList.html">
+    <input type="submit" id="createList" value="Create list"/>
+</form>
 
 </body>
 </html>
