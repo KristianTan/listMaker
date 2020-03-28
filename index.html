@@ -13,9 +13,12 @@
             if (getCookie('jwt') != null) {
                 document.getElementById("registerLogin").style.display = "none";
                 document.getElementById("logout").style.display = "block";
+                document.getElementById("savedLists").style.display = "block";
             } else {
                 document.getElementById("registerLogin").style.display = "block";
                 document.getElementById("logout").style.display = "none";
+                document.getElementById("savedLists").style.display = "none";
+
             }
         }
 
@@ -59,8 +62,12 @@
     </a>
 </div>
 
+
 <div id="logout">
     Logout
+</div>
+<div id="savedLists">
+    Saved Lists
 </div>
 
 <form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val()), '__self'); return false">

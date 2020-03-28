@@ -61,7 +61,21 @@ def get_list():
     if request.args.get('jwt'):
         try:
             data = jwt.decode(request.args.get('jwt'), app.config['SECRET_KEY'])
-            if str(data['code']) == code:
+            # Check if user is list member
+            username = data['user']
+
+            select_users = 'SELECT id FROM users WHERE username=(%s)'
+            cursor.execute(select_users, username)
+            user_id = cursor.fetchone()
+
+            select_lists = 'SELECT id FROM lists WHERE code=(%s)'
+            cursor.execute(select_lists, code)
+            list_id = cursor.fetchone()
+
+            check_list_member = 'SELECT * FROM list_members WHERE user_id=%s AND list_id=%s'
+            cursor.execute(check_list_member, (user_id[0], list_id[0]))
+            result = cursor.fetchone()
+            if result is not None:
                 authorised = True
         except jwt.ExpiredSignatureError:
             pass
@@ -75,6 +89,7 @@ def get_list():
     # entries = [item[0] for item in cursor.fetchall()]
     columns = [column[0] for column in cursor.description]
     entries = []
+
     for row in cursor.fetchall():
         entries.append(dict(zip(columns, row)))
 
@@ -87,7 +102,7 @@ def get_list():
 
 
 @app.route('/newEntry', methods=['POST'])
-def newEntry():
+def new_entry():
     listId = request.form['listId']
     text = request.form['text']
 
@@ -110,10 +125,7 @@ def check_passphrase():
 
     if data[0] == passphrase:
         message = "Correct passphrase"
-        token = get_token(code)
-        json = jsonify({'message': message,
-                        'token': str(token)})
-        json.set_cookie('jwt', token, domain='127.0.0.1')
+        json = jsonify({'message': message})
         return json
     else:
         message = "Incorrect passphrase"
@@ -153,7 +165,7 @@ def register():
     cursor.execute(select_users, username)
     data = cursor.fetchone()
 
-    if data is None:
+    if data is not None:
         return jsonify({'message': 'User already exists with that username'})
 
     if password != confirmPassword:
@@ -193,6 +205,27 @@ def login():
     })
 
 
+@app.route('/saveList', methods=['POST'])
+def save_list():
+    list_id = request.form['listId']
+    data = jwt.decode(request.form['jwt'], app.config['SECRET_KEY'])
+    username = data['user']
+
+    select_users = 'SELECT * FROM users WHERE username=(%s)'
+    cursor.execute(select_users, username)
+    user = cursor.fetchone()
+
+    check_list_member = 'SELECT * FROM list_members WHERE user_id=%s AND list_id=%s'
+    cursor.execute(check_list_member, (user[0], list_id))
+    result = cursor.fetchone()
+
+    if result is None:
+        insert_statement = 'INSERT INTO list_members (list_id, user_id) VALUES (%s, %s)'
+        cursor.execute(insert_statement, (list_id, user[0]))
+        conn.commit()
+    return jsonify({'message': 'List saved'})
+
+
 def hash_password(password):
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
     pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
@@ -223,9 +256,8 @@ def generate_code():
 
 
 def get_token(username):
-    token = jwt.encode({'user': username, 'exp': datetime.utcnow() + timedelta(minutes=15)},
-                       app.config['SECRET_KEY'])
-    return token
+    return jwt.encode({'user': username},
+                      app.config['SECRET_KEY'])
 
 
 if __name__ == '__main__':
