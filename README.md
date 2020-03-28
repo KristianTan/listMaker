@@ -35,6 +35,9 @@ The client can be found at the following link:
 * List entries can be deleted by clicking on them
 * List titles can be updated by clicking on them
 
+##### Accounts
+Logged in users can save lists to access in the future.  If they save the list, they can view it from the `Saved lists` page, and access and edit it without needing to enter the passphrase.
+
 ## API End points
 This project contains API end points for the 4 CRUD operations as listed below.
 
@@ -168,6 +171,4 @@ nothing
 ```
 
 ## JWT implementation
-To implement JWT into this project, the server issues a token when a list is created or a user enters the correct code and passphrase for a list.
-The server checks to see if a JWT exists when a user accesses a list, if their is an existing JWT for the list being accessed, the user will not be prompted for the passphrase and can access the list immediately after entering the code.
-The JWT token will expire after 15 minutes.
+To implement JWT into this project, the server issues a token when a user registers a new account or logs in to an existing account.  Logged in users can edit and access their lists without the list passphrase.
