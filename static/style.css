@@ -81,6 +81,19 @@ a {
     cursor: pointer;
 }
 
+#registerLogin {
+    font-size: 1.3em;
+    float: right;
+    margin-right: 1%;
+    margin-top: 0.5%
+}
+
+#registerLogin:hover {
+    color: #1abc9c;
+    cursor: pointer;
+}
+
+
 /* CreateList.html */
 
 #createListForm {
@@ -194,6 +207,6 @@ a {
     border: 1px solid black;
 }
 
-#formPopup input[type="submit"]:hover, #joinList:hover, #createList:hover, #makeList:hover{
+#formPopup input[type="submit"]:hover, #joinList:hover, #createList:hover, #makeList:hover {
     background: #0c856d;
 }
