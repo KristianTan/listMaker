@@ -117,16 +117,18 @@ def new_entry():
 def check_passphrase():
     passphrase = request.form['passPhrase']
     listId = request.form['listId']
-    code = request.form['code']
+    # code = request.form['code']
+    jwt_token = request.form['jwt']
 
     selectEntries = 'SELECT passphrase FROM lists WHERE id=(%s)'
     cursor.execute(selectEntries, listId)
     data = cursor.fetchone()
 
     if data[0] == passphrase:
-        message = "Correct passphrase"
-        json = jsonify({'message': message})
-        return json
+        if jwt_token is not None:
+            print("JWT: " + str(jwt_token))
+            save_list(listId, jwt_token)
+        return jsonify({'message': "Correct passphrase"})
     else:
         message = "Incorrect passphrase"
 
@@ -205,10 +207,10 @@ def login():
     })
 
 
-@app.route('/saveList', methods=['POST'])
-def save_list():
-    list_id = request.form['listId']
-    data = jwt.decode(request.form['jwt'], app.config['SECRET_KEY'])
+# @app.route('/saveList', methods=['POST'])
+def save_list(list_id, jwt_code):
+    # list_id = request.form['listId']
+    data = jwt.decode(jwt_code, app.config['SECRET_KEY'])
     username = data['user']
 
     select_users = 'SELECT * FROM users WHERE username=(%s)'

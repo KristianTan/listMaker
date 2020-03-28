@@ -48,12 +48,10 @@
                 if (!data.auth) {
                     document.getElementById("entryList").style.display = "none";
                     document.getElementById("newItemForm").style.display = "none";
-                    document.getElementById("saveList").style.display = "none";
 
                 } else {
                     document.getElementById("formPopup").style.display = "none";
                     if (getCookie('jwt')) {
-                        document.getElementById("saveList").style.display = "none";
                     }
                 }
             });
@@ -123,9 +121,10 @@
             $('#formPopup').on('submit', function (event) {
                 $.ajax({
                     data: {
+                        jwt: getCookie('jwt'),
                         'listId': id,
                         'passPhrase': $('#popupPassphrase').val(),
-                        'code': code
+                        'code': code,
                     },
                     credentials: 'Same-Origin',
                     type: 'POST',
@@ -134,33 +133,12 @@
                     if (data.message === "Correct passphrase") {
                         document.getElementById("entryList").style.display = "block";
                         document.getElementById("newItemForm").style.display = "block";
-                        document.getElementById("saveList").style.display = "block";
                         document.getElementById("formPopup").style.display = "none";
                     } else {
                         window.alert('Incorrect passphrase');
                     }
                 });
                 event.preventDefault();
-            });
-        });
-
-
-        $(document).ready(function () {
-            $('#saveList').click(function () {
-                if (getCookie('jwt')) {
-                    $.ajax({
-                        data: {
-                            listId: id,
-                            jwt: getCookie('jwt')
-                        },
-                        type: 'POST',
-                        url: 'http://ysjcs.net:5035/saveList'
-                    }).done(function () {
-                        window.location.reload();
-                    });
-                } else {
-                    alert("Login to save lists");
-                }
             });
         });
 
@@ -213,8 +191,6 @@
     <input type="password" placeholder="" id="popupPassphrase" required>
     <input type="submit" value="Enter">
 </form>
-
-<button type="button" id="saveList">Save List</button>
 
 </body>
 </html>
