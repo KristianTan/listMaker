@@ -28,7 +28,7 @@
                 url: 'http://ysjcs.net:5035/getList'
             }).done(function (data) {
                 if (data.message === 'No list found for that code') {
-                    window.alert('No list found with code: ' + data.code)
+                    window.alert('No list found with code: ' + data.code);
                     window.open('index.html', '__self');
                 }
 
@@ -121,7 +121,7 @@
             $('#formPopup').on('submit', function (event) {
                 $.ajax({
                     data: {
-                        jwt: getCookie('jwt'),
+                        'jwt': getCookie('jwt'),
                         'listId': id,
                         'passPhrase': $('#popupPassphrase').val(),
                         'code': code,

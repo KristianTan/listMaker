@@ -36,14 +36,18 @@ def create_list():
     title = request.form['title']
     passphrase = request.form['passphrase']
     code = generate_code()
-    jwt = get_token(code)
 
     insert = 'INSERT INTO lists(title, code, passphrase) VALUES (%s, %s, %s)'
     cursor.execute(insert, (title, code, passphrase))
     conn.commit()
 
-    return jsonify({'code': code,
-                    'jwt': jwt})
+    if request.form['jwt']:
+        select_lists = 'SELECT id FROM lists WHERE code=(%s)'
+        cursor.execute(select_lists, code)
+        list_id = cursor.fetchone()[0]
+
+        save_list(list_id, str(request.form['jwt']))
+    return jsonify({'code': code})
 
 
 @app.route('/getList', methods=['GET'])
@@ -118,16 +122,13 @@ def check_passphrase():
     passphrase = request.form['passPhrase']
     listId = request.form['listId']
     # code = request.form['code']
-    jwt_token = request.form['jwt']
 
-    selectEntries = 'SELECT passphrase FROM lists WHERE id=(%s)'
-    cursor.execute(selectEntries, listId)
+    select_passphrase = 'SELECT passphrase FROM lists WHERE id=(%s)'
+    cursor.execute(select_passphrase, listId)
     data = cursor.fetchone()
-
     if data[0] == passphrase:
-        if jwt_token is not None:
-            print("JWT: " + str(jwt_token))
-            save_list(listId, jwt_token)
+        if request.form['jwt']:
+            save_list(listId, request.form['jwt'])
         return jsonify({'message': "Correct passphrase"})
     else:
         message = "Incorrect passphrase"
@@ -207,7 +208,27 @@ def login():
     })
 
 
-# @app.route('/saveList', methods=['POST'])
+@app.route('/getSavedLists')
+def get_saved_lists():
+    jwt_token = request.args.get('jwt')
+    username = jwt.decode(jwt_token, app.config['SECRET_KEY'])['user']
+
+    select_users = 'SELECT * FROM users WHERE username=(%s)'
+    cursor.execute(select_users, username)
+    id = cursor.fetchone()[0]
+
+    select_saved_lists = 'SELECT lists.* FROM lists INNER JOIN list_members ON lists.id=list_members.list_id WHERE list_members.user_id = %s'
+    cursor.execute(select_saved_lists, id)
+
+    columns = [column[0] for column in cursor.description]
+    entries = []
+
+    for row in cursor.fetchall():
+        entries.append(dict(zip(columns, row)))
+
+    return jsonify({'saved_lists': entries})
+
+
 def save_list(list_id, jwt_code):
     # list_id = request.form['listId']
     data = jwt.decode(jwt_code, app.config['SECRET_KEY'])

@@ -23,9 +23,10 @@
 
         $(document).ready(function () {
             $('#logout').on('click', function (event) {
-                document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+                document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
                 window.location.reload();
             });
+
         });
 
         function getCookie(name) {
@@ -66,7 +67,7 @@
     Logout
 </div>
 <div id="savedLists">
-    Saved Lists
+    <a href="savedLists.html"> Saved Lists</a>
 </div>
 
 <form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val()), '__self'); return false">
