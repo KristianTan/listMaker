@@ -81,16 +81,7 @@
 
         $(document).ready(function () {
             $('#renameTitleForm').on('submit', function (event) {
-                // $.ajax({
-                //     data: {
-                //         'listId': id,
-                //         'newTitle': $('#renameTitle').val()
-                //     },
-                //     type: 'PUT',
-                //     url: 'http://ysjcs.net:5035/renameList'
-                // }).done(function () {
-                //     window.location.reload();
-                // });
+
                 $.ajax({
                     url: 'http://ysjcs.net:5035/renameList',
                     type: 'PUT',

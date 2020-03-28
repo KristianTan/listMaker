@@ -2,7 +2,10 @@ from datetime import datetime, timedelta
 from functools import wraps
 from random import random, randint
 
+import binascii
+import hashlib
 import jwt
+import os
 from flask import Flask, request, jsonify, make_response, session
 from flaskext.mysql import MySQL
 
@@ -135,10 +138,78 @@ def rename_list():
 
     update_statement = 'UPDATE lists SET title=(%s) WHERE id=(%s)'
     cursor.execute(update_statement, (title, listId))
-    print(update_statement, (listId, title))
     conn.commit()
 
     return ""
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    username = request.form['username']
+    password = request.form['password']
+    confirmPassword = request.form['confirmPassword']
+
+    select_users = 'SELECT * FROM users WHERE username=(%s)'
+    cursor.execute(select_users, username)
+    data = cursor.fetchone()
+
+    if data is None:
+        return jsonify({'message': 'User already exists with that username'})
+
+    if password != confirmPassword:
+        return jsonify({'message': 'Passwords do not match'})
+
+    password_hash = hash_password(password)
+    jwt = get_token(username)
+
+    insert = 'INSERT INTO users(username, password) VALUES (%s, %s)'
+    cursor.execute(insert, (username, password_hash))
+    conn.commit()
+
+    return jsonify({
+        'jwt': jwt
+    })
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+
+    select_users = 'SELECT * FROM users WHERE username=(%s)'
+    cursor.execute(select_users, username)
+    data = cursor.fetchone()
+
+    if data is None:
+        return jsonify({'message': 'No user found with that username'})
+
+    if not verify_password(data[2], password):
+        return jsonify({'message': 'Incorrect password'})
+
+    jwt = get_token(username)
+
+    return jsonify({
+        'jwt': jwt
+    })
+
+
+def hash_password(password):
+    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
+    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
+                                  salt, 100000)
+    pwdhash = binascii.hexlify(pwdhash)
+    return (salt + pwdhash).decode('ascii')
+
+
+def verify_password(stored_password, provided_password):
+    salt = stored_password[:64]
+    stored_password = stored_password[64:]
+    pwdhash = hashlib.pbkdf2_hmac('sha512',
+                                  provided_password.encode('utf-8'),
+                                  salt.encode('ascii'),
+                                  100000)
+    pwdhash = binascii.hexlify(pwdhash).decode('ascii')
+    return pwdhash == stored_password
 
 
 def generate_code():
@@ -151,8 +222,8 @@ def generate_code():
     return code
 
 
-def get_token(code):
-    token = jwt.encode({'code': code, 'exp': datetime.utcnow() + timedelta(minutes=15)},
+def get_token(username):
+    token = jwt.encode({'user': username, 'exp': datetime.utcnow() + timedelta(minutes=15)},
                        app.config['SECRET_KEY'])
     return token
 

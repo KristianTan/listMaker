@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Maker</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#register').on('submit', function (event) {
+                $.ajax({
+                    data: {
+                        username: $('#registerUsername').val(),
+                        password: $('#registerPassword').val(),
+                        confirmPassword: $('#registerConfirmPassword').val()
+                    },
+                    type: 'POST',
+                    url: 'http://ysjcs.net:5035/register'
+                }).done(function (data) {
+                    if (data.jwt != null) {
+                        document.cookie = 'jwt=' + data.jwt;
+                        window.open('index.html', '__self');
+                    } else {
+                        window.alert(data.message);
+                    }
+
+                });
+                event.preventDefault();
+            });
+        });
+
+        $(document).ready(function () {
+            $('#login').on('submit', function (event) {
+                $.ajax({
+                    data: {
+                        username: $('#loginUsername').val(),
+                        password: $('#loginPassword').val(),
+                    },
+                    type: 'POST',
+                    url: 'http://ysjcs.net:5035/login'
+                }).done(function (data) {
+                    if (data.jwt != null) {
+                        document.cookie = 'jwt=' + data.jwt;
+                        window.open('index.html', '__self');
+                    } else {
+                        window.alert(data.message);
+                    }
+
+                });
+                event.preventDefault();
+            });
+        });
+
+    </script>
+</head>
+
+
+<body>
+<div class="header">
+    <h1 class="title"><a href="index.html"> List Maker</a></h1>
+    <h2 class="subTitle">Create lists to share with your friends!</h2>
+</div>
+
+<div id="containerRows">
+    <form id="register">
+        <h1>Register</h1>
+        <label for="registerUsername">Enter a username</label>
+        <input type="text" id="registerUsername" required="true"><br>
+
+        <label for="registerPassword">Enter a password</label>
+        <input type="password" id="registerPassword" required="true"><br>
+
+        <label for="registerConfirmPassword">Confirm password</label>
+        <input type="password" id="registerConfirmPassword" required="true"> <br>
+
+        <input type="submit" value="Enter">
+    </form>
+
+    <form id="login">
+        <h1>Login</h1>
+        <label for="registerUsername">Username: </label>
+        <input type="text" id="loginUsername" required="true"><br>
+
+        <label for="registerPassword">Password: </label>
+        <input type="password" id="loginPassword" required="true"><br>
+
+        <input type="submit" value="Enter">
+    </form>
+</div>
+
+</body>
+</html>
