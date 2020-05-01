@@ -6,11 +6,68 @@
     <link rel="stylesheet" href="static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,400,700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+
+        function doOnLoad() {
+            if (getCookie('jwt') != null) {
+                document.getElementById("registerLogin").style.display = "none";
+                document.getElementById("logout").style.display = "block";
+                document.getElementById("savedLists").style.display = "block";
+            } else {
+                document.getElementById("registerLogin").style.display = "block";
+                document.getElementById("logout").style.display = "none";
+                document.getElementById("savedLists").style.display = "none";
+
+            }
+        }
+
+        $(document).ready(function () {
+            $('#logout').on('click', function (event) {
+                document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                window.location.reload();
+            });
+
+        });
+
+        function getCookie(name) {
+            var dc = document.cookie;
+            var prefix = name + "=";
+            var begin = dc.indexOf("; " + prefix);
+            if (begin == -1) {
+                begin = dc.indexOf(prefix);
+                if (begin != 0) return null;
+            } else {
+                begin += 2;
+                var end = document.cookie.indexOf(";", begin);
+                if (end == -1) {
+                    end = dc.length;
+                }
+            }
+            // because unescape has been deprecated, replaced with decodeURI
+            //return unescape(dc.substring(begin + prefix.length, end));
+            return decodeURI(dc.substring(begin + prefix.length, end));
+        }
+    </script>
 </head>
-<body>
+
+<body onload="doOnLoad()">
 <div class="header">
     <h1 class="title"><a href="index.html"> List Maker</a></h1>
     <h2 class="subTitle">Create lists to share with your friends!</h2>
+</div>
+
+<div id="registerLogin">
+    <a href="registerLogin.html">
+        Register/ Login
+    </a>
+</div>
+
+
+<div id="logout">
+    Logout
+</div>
+<div id="savedLists">
+    <a href="savedLists.html"> Saved Lists</a>
 </div>
 
 <form id="homeForm" onsubmit="window.open('getList.html?code=' + encodeURI($('#code').val()), '__self'); return false">

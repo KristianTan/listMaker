@@ -17,7 +17,7 @@ body {
     color: white;
 }
 
-a {
+.header a {
     margin-bottom: 1%;
     font-weight: 700;
     font-size: 1.5em;
@@ -81,6 +81,64 @@ a {
     cursor: pointer;
 }
 
+#registerLogin a, #logout, #savedLists a, #savedLists a:visited {
+    color: #1abc9c;
+    text-decoration: none;
+    float: right;
+    font-size: 1.2em;
+    margin-right: 1.5%;
+    margin-top: 0.5%;
+}
+
+#registerLogin a:hover, #registerLogin a:visited:hover, #logout:hover, #savedLists a:hover {
+    color: #0c856d;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+#registerLogin a:visited {
+    color: #1abc9c;
+    text-decoration: none;
+}
+
+/*Register and login*/
+
+/*#containerRows {*/
+/*    margin-top: 8%;*/
+/*    margin-left: 10%;*/
+/*    width: 80%;*/
+/*}*/
+
+#register input, #login input {
+    font-size: 1.5em;
+    margin-bottom: 3%;
+}
+
+#register input[type="submit"], #login input[type="submit"] {
+    font-family: 'Roboto Mono', monospace;
+    background: #1abc9c;
+    border: 1px black solid;
+    color: white;
+    margin-left: 50%;
+}
+
+#register, #login {
+    font-size: 1.5em;
+    margin-top: 8%;
+}
+
+#register {
+    float: left;
+    margin-left: 10%;
+    padding-right: 5%;
+    border-right: 1px black solid;
+}
+
+#login {
+    float: right;
+    margin-right: 10%;
+}
+
 /* CreateList.html */
 
 #createListForm {
@@ -116,7 +174,6 @@ a {
 }
 
 /*View List*/
-
 
 
 #listViewerTitle {
@@ -164,13 +221,19 @@ a {
     margin-left: 14.5%;
 }
 
-#addItem, #renameTitleSubmit{
+#addItem, #renameTitleSubmit, #saveList {
     font-family: 'Roboto Mono', monospace;
     font-size: 1.5em;
     background: #1abc9c;
     color: black;
     border: 1px solid black;
     font-weight: 100;
+}
+
+#saveList {
+    width: 20%;
+    margin-left: 40%;
+    margin-top: 5%;
 }
 
 #formPopup {
@@ -213,8 +276,9 @@ a {
     border: 1px solid black;
 }
 
-#formPopup input[type="submit"]:hover, #joinList:hover, #createList:hover, #makeList:hover {
+#formPopup input[type="submit"]:hover, #joinList:hover, #createList:hover, #makeList:hover, #addItem:hover, #saveList:hover {
     background: #0c856d;
+    cursor: pointer;
 }
 
 #renameTitleForm {
@@ -226,4 +290,33 @@ a {
 #renameTitle {
     margin-top: 2%;
     font-size: 2em;
+}
+
+#savedListsDisplay {
+    font-family: 'Roboto Mono', monospace;
+    /*background: red;*/
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+}
+
+
+.savedListElementTitle {
+    /*background: green;*/
+    font-weight: 400;
+    margin-top: 3%;
+    /*font-size: 2.5em;*/
+}
+
+.savedListElement {
+    text-align: center;
+    /*background: blue;*/
+    font-weight: 200;
+    flex: 1;
+}
+
+.savedListElement h2:hover {
+    color: #0c856d;
+    cursor: pointer;
 }

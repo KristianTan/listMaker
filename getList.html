@@ -28,7 +28,7 @@
                 url: 'http://ysjcs.net:5035/getList'
             }).done(function (data) {
                 if (data.message === 'No list found for that code') {
-                    window.alert('No list found with code: ' + data.code)
+                    window.alert('No list found with code: ' + data.code);
                     window.open('index.html', '__self');
                 }
 
@@ -48,8 +48,11 @@
                 if (!data.auth) {
                     document.getElementById("entryList").style.display = "none";
                     document.getElementById("newItemForm").style.display = "none";
+
                 } else {
                     document.getElementById("formPopup").style.display = "none";
+                    if (getCookie('jwt')) {
+                    }
                 }
             });
 
@@ -79,18 +82,10 @@
 
         }
 
+        // Change title form submit
         $(document).ready(function () {
             $('#renameTitleForm').on('submit', function (event) {
-                // $.ajax({
-                //     data: {
-                //         'listId': id,
-                //         'newTitle': $('#renameTitle').val()
-                //     },
-                //     type: 'PUT',
-                //     url: 'http://ysjcs.net:5035/renameList'
-                // }).done(function () {
-                //     window.location.reload();
-                // });
+
                 $.ajax({
                     url: 'http://ysjcs.net:5035/renameList',
                     type: 'PUT',
@@ -126,16 +121,16 @@
             $('#formPopup').on('submit', function (event) {
                 $.ajax({
                     data: {
+                        'jwt': getCookie('jwt'),
                         'listId': id,
                         'passPhrase': $('#popupPassphrase').val(),
-                        'code': code
+                        'code': code,
                     },
                     credentials: 'Same-Origin',
                     type: 'POST',
                     url: 'http://ysjcs.net:5035/checkPassphrase'
                 }).done(function (data) {
                     if (data.message === "Correct passphrase") {
-                        document.cookie = 'jwt=' + data.token;
                         document.getElementById("entryList").style.display = "block";
                         document.getElementById("newItemForm").style.display = "block";
                         document.getElementById("formPopup").style.display = "none";

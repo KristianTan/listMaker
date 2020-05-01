@@ -14,20 +14,36 @@
                     data: {
                         title: $('#listTitle').val(),
                         passphrase: $('#passphrase').val(),
+                        jwt: getCookie('jwt')
                     },
                     type: 'POST',
                     url: 'http://ysjcs.net:5035/createList'
                 }).done(function (data) {
-                    // Redirect to new list page
-                    // $('#output').text(data.output).show();
-                    // + '&jwt=' + data.jwt
-                    document.cookie = 'jwt=' + data.jwt;
                     window.open('getList.html?code=' + data.code, '__self');
                 });
                 event.preventDefault();
             });
         });
 
+        // Get a cookie by name
+        function getCookie(name) {
+            var dc = document.cookie;
+            var prefix = name + "=";
+            var begin = dc.indexOf("; " + prefix);
+            if (begin == -1) {
+                begin = dc.indexOf(prefix);
+                if (begin != 0) return null;
+            } else {
+                begin += 2;
+                var end = document.cookie.indexOf(";", begin);
+                if (end == -1) {
+                    end = dc.length;
+                }
+            }
+            // because unescape has been deprecated, replaced with decodeURI
+            //return unescape(dc.substring(begin + prefix.length, end));
+            return decodeURI(dc.substring(begin + prefix.length, end));
+        }
     </script>
 
 </head>
@@ -39,10 +55,10 @@
 
 <form id="createListForm">
     <label id="listTitleLabel">Give your list a title:</label>
-    <input type="text" id="listTitle" value=""><br>
+    <input type="text" id="listTitle" value="" required="true"><br>
 
     <label id="passphraseLabel">Enter a passphrase for your list:</label>
-    <input type="text" id="passphrase" value=""><br>
+    <input type="text" id="passphrase" value="" required="true"><br>
 
 
     <input type="submit" value="Create list" id="makeList">
