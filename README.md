@@ -38,6 +38,14 @@ http://ysjcs.net/~kristian.tan/listMaker/
 ##### Accounts
 Logged in users can save lists to access in the future.  If they save the list, they can view it from the `Saved lists` page, and access and edit it without needing to enter the passphrase.
 
+##### Test data
+For demonstration purposes a user account and a list have been created, the user account details and list code are:
+Username:  user
+
+Password:  password
+
+List code: 4468
+
 ## API End points
 This project contains API end points for the 4 CRUD operations as listed below.
 
