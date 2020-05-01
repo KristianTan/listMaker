@@ -16,7 +16,7 @@ commands to run the server application:
 `python app.py`
 
 The client can be found at the following link:
-`http://ysjcs.net/~kristian.tan/listMaker/`
+http://ysjcs.net/~kristian.tan/listMaker/
 
 
 ## Usage
