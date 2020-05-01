@@ -41,7 +41,7 @@ Logged in users can save lists to access in the future.  If they save the list, 
 ## API End points
 This project contains API end points for the 4 CRUD operations as listed below.
 
-### Create
+### Create (POST)
 
 #### `/createList`
 Used to create a new list
@@ -106,9 +106,49 @@ failure:
 {
     message: "Incorrect passphrase"
 }
+
+```
+#### `/register`
+Used to create a new account
+
+`Method: POST` 
+##### URL params
+| Parameter  |Description              |
+| :----------| :-----------------------:|
+|   username    | account username |
+|   password    | account password |
+|   confirmPassword    | account password confirmation|
+
+##### Returns
+```
+success: 
+{
+    jwt: {JWT token}
+}
+
 ```
 
-### Read
+#### `/login`
+Used to log in a user
+
+`Method: POST` 
+##### URL params
+| Parameter  |Description              |
+| :----------| :-----------------------:|
+|   username    | account username |
+|   password    | account password |
+
+##### Returns
+```
+success: 
+{
+    jwt: {JWT token}
+}
+
+```
+
+
+### Read (GET)
 
 #### `/getList`
 Used to retrieve a list
@@ -137,7 +177,28 @@ failure:
     code: {list code}
 }
 ```
-### Update
+
+#### `/getSavedLists`
+Used to retrieve a list of the users saved lists
+
+`Method: GET` 
+##### URL params
+| Parameter  |Description              |
+| :----------| :-----------------------:|
+|jwt |JWT token|
+
+##### Returns
+```
+success: 
+{
+    saveed_lists: {[List of a users saved on lists]}
+}
+
+```
+
+
+
+### Update (PUT)
 #### `/renameList`
 Used to update a lists title
 
@@ -154,7 +215,7 @@ Used to update a lists title
 nothing
 ```
 
-### Delete
+### Delete (DELETE)
 #### `/deleteEntry`
 Used to delete an item from a list
 
@@ -170,5 +231,7 @@ Used to delete an item from a list
 nothing
 ```
 
+
+
 ## JWT implementation
-To implement JWT into this project, the server issues a token when a user registers a new account or logs in to an existing account.  Logged in users can edit and access their lists without the list passphrase.
+To implement JWT into this project, the server issues a token when a user registers a new account or logs in to an existing account.  Logged in users can edit and access their lists without the list passphrase, and save lists to their account.
