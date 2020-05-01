@@ -22,15 +22,15 @@
                 data.saved_lists.forEach(function (item) {
                     // html_list += "<li class=\"savedListElement\" id=" + item['id'] + ">" + item['title'] + "</li>";
                     html += "<div class=\"savedListElement\" id=" + item['code'] + "> " +
-                        "<h2 class=\"savedListElementTitle\" id=" + item['code'] + ">" + item['title'] + " </h2>" +
-                        item['code'];
+                        "<h2 class=\"savedListElementTitle\" id=" + item['code'] + ">" + item['title'] + " </h2> (list code: " +
+                        item['code'] + ")";
 
                 });
-                document.getElementById("savedLists").innerHTML = html;
+                document.getElementById("savedListsDisplay").innerHTML = html;
 
             });
 
-            document.getElementById("savedLists").addEventListener("click", function (e) {
+            document.getElementById("savedListsDisplay").addEventListener("click", function (e) {
                 if (e.target) {
                     // console.log(e.target.id + " was clicked");
                     window.open('getList.html?code=' + encodeURI(e.target.id), '__self');
@@ -78,7 +78,7 @@
 </div>
 
 <div class="spacer"></div>
-<div id="savedLists"></div>
+<div id="savedListsDisplay"></div>
 <div class="spacer"></div>
 
 </body>

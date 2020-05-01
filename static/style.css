@@ -81,7 +81,7 @@ body {
     cursor: pointer;
 }
 
-#registerLogin a, #logout, #savedLists a {
+#registerLogin a, #logout, #savedLists a, #savedLists a:visited {
     color: #1abc9c;
     text-decoration: none;
     float: right;
@@ -292,14 +292,13 @@ body {
     font-size: 2em;
 }
 
-#savedLists {
+#savedListsDisplay {
     font-family: 'Roboto Mono', monospace;
     /*background: red;*/
     width: 100%;
     display: flex;
     flex-direction: column;
-        font-size: 1.5em;
-
+    font-size: 1.5em;
 }
 
 
@@ -315,4 +314,9 @@ body {
     /*background: blue;*/
     font-weight: 200;
     flex: 1;
+}
+
+.savedListElement h2:hover {
+    color: #0c856d;
+    cursor: pointer;
 }
