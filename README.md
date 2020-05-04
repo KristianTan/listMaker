@@ -1,5 +1,7 @@
 # Collaborative list maker
 
+https://github.com/KristianTan/listMaker
+
 This project is a collaborative list making tool.  
 Users can create lists which they can share with others using the list code.
 
@@ -38,14 +40,16 @@ http://ysjcs.net/~kristian.tan/listMaker/
 ##### Accounts
 Logged in users can save lists to access in the future.  If they save the list, they can view it from the `Saved lists` page, and access and edit it without needing to enter the passphrase.
 
-##### Test data
-For demonstration purposes a user account and a list have been created, the user account details and list code are:
+## Test data
+For demonstration purposes a user account and a list have been created, the details are:
 
 Username:  user
 
 Password:  password
 
 List code: 4468
+
+List passphrase: passphrase
 
 ## API End points
 This project contains API end points for the 4 CRUD operations as listed below.
@@ -77,10 +81,10 @@ Used to create a new entry in a list
 
 `Method: POST` 
 ##### URL params
-| Parameter |Description              |
+| Parameter  |Description              |
 | :----------| :-----------------------:|
 |     listid | Unique ID for list to add entry to|
-| text|  The text to be added to the list|
+| text       |  The text to be added to the list|
 
 
 ##### Returns
@@ -97,10 +101,10 @@ Used to check the passphrase entered by a user to authorise them to use a list
 `Method: POST` 
 ##### URL params
 | Parameter |Description              |
-| :----------| :-----------------------:|
-|     passphrase  | Passphrase entered by the user|
-|listid| unique id of list| 
-|code| Unique 4 digit list code|
+| :---------| :-----------------------:|
+|passphrase | Passphrase entered by the user|
+|listid     | unique id of list| 
+|code       | Unique 4 digit list code|
 
 
 ##### Returns
@@ -122,11 +126,11 @@ Used to create a new account
 
 `Method: POST` 
 ##### URL params
-| Parameter  |Description              |
-| :----------| :-----------------------:|
-|   username    | account username |
-|   password    | account password |
-|   confirmPassword    | account password confirmation|
+| Parameter         |Description              |
+| :----------       | :-----------------------:|
+|   username        | account username |
+|   password        | account password |
+|   confirmPassword | account password confirmation|
 
 ##### Returns
 ```
@@ -142,8 +146,8 @@ Used to log in a user
 
 `Method: POST` 
 ##### URL params
-| Parameter  |Description              |
-| :----------| :-----------------------:|
+| Parameter     |Description              |
+| :----------   | :-----------------------:|
 |   username    | account username |
 |   password    | account password |
 
@@ -166,8 +170,8 @@ Used to retrieve a list
 ##### URL params
 | Parameter  |Description              |
 | :----------| :-----------------------:|
-| code        |Unique 4 digit list code |
-|jwt |JWT token|
+| code       |Unique 4 digit list code |
+| jwt        |JWT token|
 
 ##### Returns
 ```
@@ -194,7 +198,7 @@ Used to retrieve a list of the users saved lists
 ##### URL params
 | Parameter  |Description              |
 | :----------| :-----------------------:|
-|jwt |JWT token|
+| jwt        |JWT token|
 
 ##### Returns
 ```
@@ -214,9 +218,9 @@ Used to update a lists title
 `Method: PUT` 
 ##### URL params
 | Parameter  |Description              |
-| :----------:| :-----------------------:|
-|id       |      list ID|
-|newTitle| New title of list| 
+| :---------:| :-----------------------:|
+| id         |      list ID|
+| newTitle   | New title of list| 
 
 
 ##### Returns
@@ -230,9 +234,9 @@ Used to delete an item from a list
 
 `Method: DELETE` 
 ##### URL params
-| Parameter  |Description              |
+| Parameter   |Description              |
 | :----------:| :-----------------------:|
-|   id    |  ID of the entry to delete    | 
+|   id        |  ID of the entry to delete    | 
 
 
 ##### Returns
