@@ -47,7 +47,7 @@ Username:  user
 
 Password:  password
 
-List code: 4468
+List code: 1234
 
 List passphrase: passphrase
 
