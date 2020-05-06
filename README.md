@@ -17,6 +17,8 @@ commands to run the server application:
 
 `python app.py`
 
+The server application is provided by a database named kristiantan_RESTService hosted on the cs2s server.
+
 The client can be found at the following link:
 http://ysjcs.net/~kristian.tan/
 
@@ -32,7 +34,7 @@ http://ysjcs.net/~kristian.tan/
 ##### Accessing a list
 * To access an existing list enter a list code into the text box on the home screen
 * Press the `Join List` button to go to the specified list
-* Enter the passphrase for the list in the text box and press `Enter` 
+* Enter the passphrase for the list in the text box and press `Enter`
 * Once you have entered the passphrase you will not be asked for it again, unless you access another list
 * List entries can be deleted by clicking on them
 * List titles can be updated by clicking on them
@@ -59,7 +61,7 @@ This project contains API end points for the 4 CRUD operations as listed below.
 #### `/createList`
 Used to create a new list
 
-`Method: POST` 
+`Method: POST`
 ##### URL params
 | Parameter  |Description              |
 | :----------| :-----------------------:|
@@ -68,7 +70,7 @@ Used to create a new list
 
 ##### Returns
 ```
-success: 
+success:
 {
     code: {list code},
     jwt: {JWT token}
@@ -79,7 +81,7 @@ success:
 #### `/newEntry`
 Used to create a new entry in a list
 
-`Method: POST` 
+`Method: POST`
 ##### URL params
 | Parameter  |Description              |
 | :----------| :-----------------------:|
@@ -98,18 +100,18 @@ Returns empty json
 #### `/checkPassphrase`
 Used to check the passphrase entered by a user to authorise them to use a list
 
-`Method: POST` 
+`Method: POST`
 ##### URL params
 | Parameter |Description              |
 | :---------| :-----------------------:|
 |passphrase | Passphrase entered by the user|
-|listid     | unique id of list| 
+|listid     | unique id of list|
 |code       | Unique 4 digit list code|
 
 
 ##### Returns
 ```
-success: 
+success:
 {
     message: "Correct passphrase",
     token: JWT token
@@ -124,7 +126,7 @@ failure:
 #### `/register`
 Used to create a new account
 
-`Method: POST` 
+`Method: POST`
 ##### URL params
 | Parameter         |Description              |
 | :----------       | :-----------------------:|
@@ -134,7 +136,7 @@ Used to create a new account
 
 ##### Returns
 ```
-success: 
+success:
 {
     jwt: {JWT token}
 }
@@ -144,7 +146,7 @@ success:
 #### `/login`
 Used to log in a user
 
-`Method: POST` 
+`Method: POST`
 ##### URL params
 | Parameter     |Description              |
 | :----------   | :-----------------------:|
@@ -153,7 +155,7 @@ Used to log in a user
 
 ##### Returns
 ```
-success: 
+success:
 {
     jwt: {JWT token}
 }
@@ -166,7 +168,7 @@ success:
 #### `/getList`
 Used to retrieve a list
 
-`Method: GET` 
+`Method: GET`
 ##### URL params
 | Parameter  |Description              |
 | :----------| :-----------------------:|
@@ -175,7 +177,7 @@ Used to retrieve a list
 
 ##### Returns
 ```
-success: 
+success:
 {
     message: "List found",
     id: {list ID},
@@ -194,7 +196,7 @@ failure:
 #### `/getSavedLists`
 Used to retrieve a list of the users saved lists
 
-`Method: GET` 
+`Method: GET`
 ##### URL params
 | Parameter  |Description              |
 | :----------| :-----------------------:|
@@ -202,7 +204,7 @@ Used to retrieve a list of the users saved lists
 
 ##### Returns
 ```
-success: 
+success:
 {
     saveed_lists: {[List of a users saved on lists]}
 }
@@ -215,12 +217,12 @@ success:
 #### `/renameList`
 Used to update a lists title
 
-`Method: PUT` 
+`Method: PUT`
 ##### URL params
 | Parameter  |Description              |
 | :---------:| :-----------------------:|
 | id         |      list ID|
-| newTitle   | New title of list| 
+| newTitle   | New title of list|
 
 
 ##### Returns
@@ -232,11 +234,11 @@ nothing
 #### `/deleteEntry`
 Used to delete an item from a list
 
-`Method: DELETE` 
+`Method: DELETE`
 ##### URL params
 | Parameter   |Description              |
 | :----------:| :-----------------------:|
-|   id        |  ID of the entry to delete    | 
+|   id        |  ID of the entry to delete    |
 
 
 ##### Returns
