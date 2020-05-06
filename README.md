@@ -19,7 +19,7 @@ commands to run the server application:
 
 The server application is provided by a database named kristiantan_RESTService hosted on the cs2s server.
 
-The client can be found at the following link:
+Once the server application is running, the client can be found at the following link:
 http://ysjcs.net/~kristian.tan/
 
 
